@@ -5,8 +5,13 @@ function GreenScreen() {
     instance.greenSlider = null;
     instance.blueSlider = null;
     instance.redSlider = null;
-    instance.greenscreenEffect = null;
     instance.currentColor = null;
+    instance.seriouslyGreenScreen = {
+        seriouslyInstance : new Seriously(),
+        source: null,
+        target: null,
+        greenScreenEffect: null
+    };
 
     instance.requestWebCam = function () {
         if (navigator.mediaDevices) {
@@ -24,6 +29,12 @@ function GreenScreen() {
 
     instance.attachGreenScreenCanvas = function (canvasElement) {
         instance.greenScreenCanvas = canvasElement;
+        window.addEventListener('resize', instance.onWindowAdjust, true);
+    }
+
+    instance.onWindowAdjust = function(event){
+        instance.seriouslyGreenScreen.target.width = window.innerWidth;
+        instance.seriouslyGreenScreen.target.height = window.innerWidth; 
     }
 
     instance.attachColorViewer = function (divElement) {
@@ -46,26 +57,27 @@ function GreenScreen() {
     }
 
     instance.build = function () {
-        var seriously, // the main object that holds the entire composition
-            webcamsrc, // a wrapper object for our source image
-            target; // a wrapper object for our target canvas
-
-        // the seriously lib
-        seriously = new Seriously();
-
-        // connect to webcam src.
-        webcamsrc = seriously.source(instance.webCamSource);
-
-        // connect to greenscreen canvas
-        target = seriously.target(instance.greenScreenCanvas);
-
-        //add effect
-        instance.greenscreenEffect = seriously.effect('chroma');
-        instance.greenscreenEffect.source = webcamsrc;
-        target.source = instance.greenscreenEffect;
-        seriously.go();
-
+        instance.initSeriouslyGreenScreen();
+        instance.makeSeriouslyNodeConnection();
+        instance.seriouslyGreenScreen.seriouslyInstance.go();
+        instance.greenScreenCanvas.width = 640;
+        instance.greenScreenCanvas.height = 480;
         instance.bindSliders();
+    }
+
+    instance.initSeriouslyGreenScreen = function(){
+        instance.seriouslyGreenScreen.source = instance.seriouslyGreenScreen.seriouslyInstance.source(instance.webCamSource);
+        instance.seriouslyGreenScreen.target = instance.seriouslyGreenScreen.seriouslyInstance.target(instance.greenScreenCanvas);
+        instance.seriouslyGreenScreen.greenScreenEffect = instance.seriouslyGreenScreen.seriouslyInstance.effect('chroma');
+    }
+
+    instance.makeSeriouslyNodeConnection = function(){
+        instance.seriouslyGreenScreen.greenScreenEffect.source = instance.seriouslyGreenScreen.source;
+        instance.seriouslyGreenScreen.target.source = instance.seriouslyGreenScreen.greenScreenEffect;
+    }
+
+    instance.rebuildGreenScreen = function(){
+        
     }
 
     instance.bindSliders = function(){
@@ -76,7 +88,7 @@ function GreenScreen() {
 
     instance.onSliderChangeEvent = function (event) {
         console.log(event.target.value);
-        instance.greenscreenEffect.screen = [instance.redSlider.value / 255, instance.greenSlider.value / 255, instance.blueSlider.value / 255, 1];
+        instance.seriouslyGreenScreen.greenScreenEffect.screen = [instance.redSlider.value / 255, instance.greenSlider.value / 255, instance.blueSlider.value / 255, 1];
         instance.currentColor.style.backgroundColor = 'rgb('.concat(instance.redSlider.value, ",", instance.greenSlider.value, ",", instance.blueSlider.value, ")");
     }
 }

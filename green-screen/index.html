@@ -1,37 +1,45 @@
 <!DOCTYPE html>
-<head>
-    <script src="scripts/GreenScreen.js"></script>
-    <script src="scripts/seriously-js/seriously.js"></script>
-    <script src="scripts/seriously-js/effects/seriously.chroma.js"></script>
-</head>
-<body>
-    <div id="video-container">
-        <video id="webcamsrc" autoplay="" style="visibility: hidden; position:absolute;">Video not supported</video>
-        <canvas id="greenscreen" width="640" height="480"></canvas>
-    </div>
-    <div class="ctrl">
-        <div id="currentColor" style="width: 100px; height:100px;"></div>
-        <div class="slider">
-            <label>red</label>
-            <input type="range" min="0" max="255" id="red">
+<html lang="en">
+    <head>
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta charset="utf-8">
+        <title>Green Screen</title>
+        <script src="scripts/GreenScreen.js"></script>
+        <script src="scripts/seriously-js/seriously.js"></script>
+        <script src="scripts/seriously-js/effects/seriously.chroma.js"></script>
+        <link rel="stylesheet" href="style.css">
+    </head>
+    <body>
+        <h1>Green Screen</h1>
+        <div id="video-container">
+            <video id="webcamsrc" autoplay="" >Video not supported</video>
+            <canvas id="greenscreen" width="640" height="480"></canvas>
+            <p></p>
         </div>
-        <div class="slider">
-            <label>green</label>
-            <input type="range" min="0" max="255" id="green">
+        <div class="ctrl">
+            <div id="currentColor"></div>
+            <div class="slider">
+                <label>Red</label>
+                <input title="Red Slider" type="range" min="0" max="255" id="red"/>
+            </div>
+            <div class="slider">
+                <label>Green</label>
+                <input title="Green Slider" type="range" min="0" max="255" id="green"/>
+            </div>
+            <div class="slider">
+                <label>Blue</label>
+                <input title="Blue Slider" type="range" min="0" max="255" id="blue"/>
+            </div>
         </div>
-        <div class="slider">
-            <label>blue</label>
-            <input type="range" min="0" max="255" id="blue">
-        </div>
-    </div>
-    
-    <script>
-        let greenscreen = new GreenScreen();
-        greenscreen.attachWebCamSource(document.getElementById("webcamsrc"));
-        greenscreen.attachGreenScreenCanvas(document.getElementById("greenscreen"));
-        greenscreen.attachColorViewer(document.getElementById("currentColor"));
-        greenscreen.attachSliders(document.getElementById("red"),document.getElementById("blue"),document.getElementById("green"));
-        greenscreen.requestWebCam();
-        greenscreen.build();
-    </script>
-</body>
+        
+        <script>
+            let greenscreen = new GreenScreen();
+            greenscreen.attachWebCamSource(document.getElementById("webcamsrc"));
+            greenscreen.attachGreenScreenCanvas(document.getElementById("greenscreen"));
+            greenscreen.attachColorViewer(document.getElementById("currentColor"));
+            greenscreen.attachSliders(document.getElementById("red"),document.getElementById("blue"),document.getElementById("green"));
+            greenscreen.requestWebCam();
+            greenscreen.build();
+        </script>
+    </body>
+</html>

@@ -1,0 +1,9 @@
+#webcamsrc {
+    visibility: hidden; 
+    position:absolute;
+}
+
+#currentColor{
+    width: 100px; 
+    height:100px;
+}
