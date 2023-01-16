@@ -50,6 +50,12 @@ function GreenScreen() {
     instance.onWebCamAccess = function (stream) {
         instance.webCamSource.autoplay = true;
         instance.webCamSource.srcObject = stream;
+        instance.handleSafariQuirks();
+    }
+
+    instance.handleSafariQuirks = function(){
+        instance.webCamSource.muted = true;
+        instance.webCamSource.play();
     }
 
     instance.onWebCamError = function () {
