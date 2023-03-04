@@ -1,6 +1,8 @@
 #webcamsrc {
-    visibility: hidden; 
+    visibility: visible; 
+    opacity: 0;
     position:absolute;
+    z-index: -1;
 }
 
 #currentColor{

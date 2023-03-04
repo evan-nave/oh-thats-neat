@@ -54,8 +54,9 @@ function GreenScreen() {
     }
 
     instance.handleSafariQuirks = function(){
-        instance.webCamSource.muted = true;
-        instance.webCamSource.play();
+       instance.webCamSource.muted = true;
+       instance.webCamSource.play();
+       instance.webCamSource.setAttribute('playsinline','');
     }
 
     instance.onWebCamError = function () {
